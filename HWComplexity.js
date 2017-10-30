@@ -131,6 +131,13 @@ function complexity(filePath)
 		}
 		if(node.type=='IfStatement') //checks for conditions in a file
 		{
+			traverseWithParents(node.test, function(cond)
+			{
+			   if(cond.type==='LogicalExpression')
+			   {
+				   fileBuilder.AllConditions++;
+			   } 
+			});
 			fileBuilder.AllConditions++;
 		}
 		if (node.type === 'FunctionDeclaration') 
