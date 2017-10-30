@@ -4,10 +4,9 @@ Code for Code Complexity is : [HWComplexity.js](https://github.ncsu.edu/rshah8/H
 
 Output if you find the complexity of the code file itself:
 ```
-C:\Users\rgsha\Documents\SE\Complexity>node HWComplexity.js
 HWComplexity.js
 ~~~~~~~~~~~~
-Package Complexity 2    String Usage 129        AllConditions 27
+Package Complexity 2    String Usage 130        AllConditions 105
 
 main(): 5
 ============
@@ -31,26 +30,27 @@ SimpleCyclomaticComplexity: 3   Parameters: 2   ReturnCount: 0  Max Message Chai
 
 complexity(): 107
 ============
-SimpleCyclomaticComplexity: 13  Parameters: 1   ReturnCount: 0  Max Message Chains: 3
+SimpleCyclomaticComplexity: 14  Parameters: 1   ReturnCount: 0  Max Message Chains: 3
 
 
-childrenLength(): 187
+childrenLength(): 194
 ============
 SimpleCyclomaticComplexity: 3   Parameters: 1   ReturnCount: 1  Max Message Chains: 1
 
 
-isDecision(): 207
+isDecision(): 214
 ============
 SimpleCyclomaticComplexity: 2   Parameters: 1   ReturnCount: 2  Max Message Chains: 1
 
 
-functionName(): 218
+functionName(): 225
 ============
 SimpleCyclomaticComplexity: 2   Parameters: 1   ReturnCount: 2  Max Message Chains: 3
 
 
-Crazy(): 242
+Crazy(): 249
 ============
 SimpleCyclomaticComplexity: 8   Parameters: 1   ReturnCount: 4  Max Message Chains: 3
+
 
 ```
