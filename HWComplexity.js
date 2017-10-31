@@ -53,10 +53,12 @@ function FunctionBuilder()
 			   "SimpleCyclomaticComplexity: {2}\t" +
 				"Parameters: {3}\t"+
 				"ReturnCount: {4}\t"+
-				"Max Message Chains: {5}\n\n"
+				"Max Message Chains: {5}\t"+
+				"Max Conditions: {6}\t"+
+				"Max Depth: {7} \n\n"
 			)
 			.format(this.FunctionName, this.StartLine,
-				     this.SimpleCyclomaticComplexity, this.ParameterCount, this.ReturnCount, this.MaxMessageChains)
+				     this.SimpleCyclomaticComplexity, this.ParameterCount, this.ReturnCount, this.MaxMessageChains, this.MaxConditions, this.MaxNestingDepth)
 		);
 	}
 };
@@ -150,22 +152,41 @@ function complexity(filePath)
 			builders[builder.FunctionName] = builder;
             traverseWithParents(node, function(child)
             {
+				var depth=0;
+				var chains=0;
 				if (child.type === "MemberExpression") //check for start of chain
 			    {
-			        var newBuilder = new FunctionBuilder();
 					traverseWithParents(child, function (cond) 
 					{
 
 						if (cond.property != null)  //every message chain has a property for every change
 						{
-			                newBuilder.MaxMessageChains++;
+							chains++;
 			            }
 			        });
-					if (builder.MaxMessageChains < newBuilder.MaxMessageChains) 
+					if (chains>builder.MaxMessageChains) 
 					{
-			            builder.MaxMessageChains = newBuilder.MaxMessageChains;
+						builder.MaxMessageChains=chains;
+						chains=0;
 			        }
-			    }
+				}
+					
+				if(isDecision(child)) //max nesting depth
+				{
+					traverseWithParents(child, function(children){
+						if(isDecision(children)){
+							depth++;
+							if(children.nextSibling){
+								depth--;
+							}
+						}
+						if(depth>builder.MaxNestingDepth){
+							builder.MaxNestingDepth = depth;
+							depth=0;
+						}
+					});			
+					
+				}
                 if(child.type=='IfStatement') //for simple cyclomatic complexity
                 {
                     traverseWithParents(child.test, function(cond)
@@ -189,6 +210,8 @@ function complexity(filePath)
 	});
 
 }
+
+
 
 // Helper function for counting children of node.
 function childrenLength(node)
